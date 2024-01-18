@@ -21,12 +21,23 @@ div {
     max-height: 60%;
     aspect-ratio: 2/3;
     background-color: blue;
+    padding: 8px;
 }
 
 .screen {
     background-color: yellowgreen;
     height:10%;
-    margin:5% 3%
+    margin:5% 3%;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding:0.4em;
+}
+.screen .output {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: xx-large;
+    font-weight: bold;
+    border: 0;
 }
 
 .lower {
@@ -37,7 +48,7 @@ div {
     font-weight: bolder;
 }
 .solarpanel {
-    background-color: black;
+    background-color: rgb(35, 52, 0);
     width:50%;
     height:5%;
 }
@@ -69,6 +80,9 @@ div {
 }
 .buttonsright .redbutton {
     width:85%;
+}
+#equals{
+    flex:4;
 }
 
 .calculator * {
