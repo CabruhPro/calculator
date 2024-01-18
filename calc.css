@@ -1,11 +1,16 @@
 html {
     width:100vw;
     height:100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 body {
-    width:100%;
-    height:100%;
+    width: 90%;
+    height:90%;
     display:flex;
     justify-content: center;
 }
@@ -16,8 +21,8 @@ div {
 }
 
 .calculator {
-    min-width: 400px;
-    min-height: 600px;
+    min-width: 300px;
+    min-height: 450px;
     max-height: 60%;
     aspect-ratio: 2/3;
     background-color: blue;
@@ -29,11 +34,23 @@ div {
     height:10%;
     margin:5% 3%;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     padding:0.4em;
 }
+.screen .indic {
+    border:0;
+}
+.screen .indic *{
+    color:rgb(80, 172, 73);
+    width: min-content;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: small;
+    font-weight: bold;
+    border: 0;
+}
 .screen .output {
+    color: rgb(62, 80, 27);
     font-family: 'Courier New', Courier, monospace;
     font-size: xx-large;
     font-weight: bold;
