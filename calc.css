@@ -34,11 +34,23 @@ div {
     height:10%;
     margin:5% 3%;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     padding:0.4em;
 }
-.screen .display {
+.screen .indic {
+    border:0;
+}
+.screen .indic *{
+    color:rgb(80, 172, 73);
+    width: min-content;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: small;
+    font-weight: bold;
+    border: 0;
+}
+.screen .output {
+    color: rgb(62, 80, 27);
     font-family: 'Courier New', Courier, monospace;
     font-size: xx-large;
     font-weight: bold;
