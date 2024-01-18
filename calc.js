@@ -4,24 +4,15 @@ let operation=null;
 let computed=false;
 let decpressed=false;
 let negative=false;
-let altkeymap={
-    "×" : "*",
-    "÷" : "/"
-}
+
 let operations=["+", "*", "-", "/", "√", "%"];
 let specialKeys=["+/-", "MRC", "M-", "M+", "ON/C"];
 // √ = ** 0.5?
 // % = / 100?
 
-function getParseable(button){
-    if (button in altkeymap){
-        return altkeymap[button];
-    }
-    return button;
-}
-
 function operate(){
-    num2=Number(output.textContent);
+    num2=Number((negative?"-":"+")+output.textContent);
+    negative=false;
     switch(operation){
         case "+":
             result=num1+num2;
@@ -29,18 +20,37 @@ function operate(){
         case "-":
             result=num1-num2;
             break;
-        case "*":
+        case "×":
             result=num1*num2;
             break;
-        case "/":
+        case "÷":
             result=num1/num2;
             break;
     }
     console.log("operation: "+ num1+" "+operation+" "+num2);
     console.log("result: " + result);
     output.textContent=result;
+    formatOutput();
     num1=result;
     num2=null;
+}
+
+function formatOutput () {
+    format=output.textContent;
+    if (!format.includes(".")){
+        format+=".";
+    }
+    if (format < 0){
+        format=format.slice(1);
+        negative=true;
+    }
+    setNegative();
+    output.textContent=format;
+}
+
+function setNegative () {
+    negsign.style.color=
+    negative?"rgb(62, 80, 27)":"rgb(80, 172, 73)";
 }
 
 output=document.querySelector(".output");
@@ -50,7 +60,7 @@ rightbuttons=document.querySelector(".buttonsright")
 
 function assignButtonFunc (button) {
     button.addEventListener('click', function (){
-        pressed=getParseable(button.textContent);
+        pressed=button.textContent;
         if (isNaN(pressed)){
             switch (pressed){
                 case ".":
@@ -61,24 +71,28 @@ function assignButtonFunc (button) {
                     num2=null;
                     operator=null;
                     decpressed=false;
-                    output.textContent="0."
+                    output.textContent="0.";
+                    negative=false;
+                    setNegative();
                     break;
                 case "+/-":
                     negative=!negative;
-                    negsign.style.color=
-                    negative?"rgb(62, 80, 27)":"rgb(80, 172, 73)";
+                    console.log("negative: "+negative);
+                    setNegative();
+                    break;
                 case "+":
-                case "*":
+                case "×":
                 case "-":
-                case "/":
+                case "÷":
                     if(!computed){
                         if (num1!==null){
                             operate();
                         }
                         else {
-                            num1=Number(output.textContent);
+                            num1=Number((negative?"-":"+")+output.textContent);
+                            negative=false;
                         }
-                        num1=Number(output.textContent);
+                        num1=Number((negative?"-":"+")+output.textContent);
                         computed=true;
                         decpressed=false;
                     }
@@ -134,18 +148,3 @@ function numberInput(){
 
 leftbuttons.childNodes.forEach(button => assignButtonFunc(button));
 rightbuttons.childNodes.forEach(button => assignButtonFunc(button));
-
-
-/*
-    Do not parse anything until a number is inputted first
-    Once a number is inputted, there are multiple options:
-    1) Type in another number -> keep expanding current
-    2) Type in an operation -> store number and store oper
-    3) Type in a decimal -> decimal will begin shifting
-    4) Type in equals -> same number
-
-    if a number is computed
-    do not perform an operation until
-    the next input is a number
-    otherwise keep changing operations
-    */
