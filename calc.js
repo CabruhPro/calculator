@@ -5,35 +5,21 @@ let computed=false;
 let decpressed=false;
 let negative=false;
 
-let operations=["+", "*", "-", "/", "√", "%"];
-let specialKeys=["+/-", "MRC", "M-", "M+", "ON/C"];
+leftbuttons=document.querySelector(".buttonsleft");
+rightbuttons=document.querySelector(".buttonsright");
+negsign=document.querySelector("#neg");
+errsign=document.querySelector("#err");
+memsign=document.querySelector("#mem");
+output=document.querySelector(".output");
+
+leftbuttons.childNodes.forEach(button => assignButtonFunc(button));
+rightbuttons.childNodes.forEach(button => assignButtonFunc(button));
+
+// Implement these operations this way?
 // √ = ** 0.5?
 // % = / 100?
 
-function operate(){
-    num2=Number((negative?"-":"+")+output.textContent);
-    negative=false;
-    switch(operation){
-        case "+":
-            result=num1+num2;
-            break;
-        case "-":
-            result=num1-num2;
-            break;
-        case "×":
-            result=num1*num2;
-            break;
-        case "÷":
-            result=num1/num2;
-            break;
-    }
-    console.log("operation: "+ num1+" "+operation+" "+num2);
-    console.log("result: " + result);
-    output.textContent=result;
-    formatOutput();
-    num1=result;
-    num2=null;
-}
+//Helper functions
 
 function formatOutput () {
     format=output.textContent;
@@ -59,10 +45,54 @@ function setNegative () {
     negative?"rgb(62, 80, 27)":"rgb(80, 172, 73)";
 }
 
-output=document.querySelector(".output");
-negsign=document.querySelector("#neg");
-leftbuttons=document.querySelector(".buttonsleft");
-rightbuttons=document.querySelector(".buttonsright")
+function operate(){
+    num2=Number((negative?"-":"+")+output.textContent);
+    negative=false;
+    switch(operation){
+        case "+":
+            result=num1+num2;
+            break;
+        case "-":
+            result=num1-num2;
+            break;
+        case "×":
+            result=num1*num2;
+            break;
+        case "÷":
+            result=num1/num2;
+            break;
+    }
+    //console.log("operation: "+ num1+" "+operation+" "+num2);
+    //console.log("result: " + result);
+    output.textContent=result;
+    formatOutput();
+    num1=result;
+    num2=null;
+}
+
+function numberInput(){
+    text=output.textContent;
+    if (computed){
+        setNegative();
+        text="0.";
+        computed=false;
+    }
+    if(text.length < 13){
+        if (decpressed){
+            text+=pressed;
+        }
+        else{
+            if (text === "0."){
+                text=pressed+".";
+            }
+            else{
+                len=text.length
+                text=text.slice(0, len-1)+pressed+".";
+            }
+        }
+        output.textContent=text;
+    }
+}
 
 function assignButtonFunc (button) {
     button.addEventListener('click', function (){
@@ -121,30 +151,3 @@ function assignButtonFunc (button) {
         }
     });
 }
-
-function numberInput(){
-    text=output.textContent;
-    if (computed){
-        setNegative();
-        text="0.";
-        computed=false;
-    }
-    if(text.length < 13){
-        if (decpressed){
-            text+=pressed;
-        }
-        else{
-            if (text === "0."){
-                text=pressed+".";
-            }
-            else{
-                len=text.length
-                text=text.slice(0, len-1)+pressed+".";
-            }
-        }
-        output.textContent=text;
-    }
-}
-
-leftbuttons.childNodes.forEach(button => assignButtonFunc(button));
-rightbuttons.childNodes.forEach(button => assignButtonFunc(button));
