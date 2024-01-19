@@ -37,12 +37,18 @@ function operate(){
 
 function formatOutput () {
     format=output.textContent;
-    if (!format.includes(".")){
-        format+=".";
-    }
     if (format < 0){
         format=format.slice(1);
         negative=true;
+    }
+    if (format.length > 13){
+        format=format.slice(0,13);
+    }
+    if (!format.includes(".")){
+        if(format.length===13){
+            format=format.slice(0,12);
+        }
+        format+=".";
     }
     setNegative();
     output.textContent=format;
@@ -77,7 +83,6 @@ function assignButtonFunc (button) {
                     break;
                 case "+/-":
                     negative=!negative;
-                    console.log("negative: "+negative);
                     setNegative();
                     break;
                 case "+":
@@ -88,18 +93,12 @@ function assignButtonFunc (button) {
                         if (num1!==null){
                             operate();
                         }
-                        else {
-                            num1=Number((negative?"-":"+")+output.textContent);
-                            negative=false;
-                        }
-                        num1=Number((negative?"-":"+")+output.textContent);
                         computed=true;
                         decpressed=false;
                     }
-                    else{
-                        num1=Number(output.textContent);
-                    }
+                    num1=Number((negative?"-":"+")+output.textContent);
                     operation=pressed;
+                    negative=false;
                     break;
                 case "=":
                     if (num1!==null){
@@ -126,6 +125,7 @@ function assignButtonFunc (button) {
 function numberInput(){
     text=output.textContent;
     if (computed){
+        setNegative();
         text="0.";
         computed=false;
     }
