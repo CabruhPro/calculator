@@ -27,6 +27,7 @@ div {
     aspect-ratio: 2/3;
     background-color: blue;
     padding: 8px;
+    border-radius: 8px;
 }
 
 .screen {
@@ -113,6 +114,7 @@ div {
     min-height: 0;
     min-width: 0;
     border: 2px solid blue;
+    border-radius: 8px;
 }
 
 .redbutton:hover{
