@@ -1,10 +1,12 @@
- let num1=null;
+let num1=null;
 let num2=null;
 let operation=null;
 let computed=false;
 let decpressed=false;
 let negative=false;
 let error=false;
+let mrcpressed=false;
+let memory=0;
 
 leftbuttons=document.querySelector(".buttonsleft");
 rightbuttons=document.querySelector(".buttonsright");
@@ -68,6 +70,7 @@ function operate(){
 function numberInput(){
     text=output.textContent;
     if (computed){
+        negative=false;
         setNegative();
         text="0.";
         computed=false;
@@ -138,6 +141,7 @@ function assignButtonFunc (button) {
                     operation=null;
                     computed=true;
                     decpressed=false;
+                    negative
                     break;
                 case "%":
                     if (operation===null){
@@ -148,6 +152,7 @@ function assignButtonFunc (button) {
                     else{
                         output.textContent=
                         Number((negative?"-":"+")+output.textContent)*0.01*num1;
+                        formatOutput();
                         operate();
                     }
                     computed=true;
@@ -160,13 +165,28 @@ function assignButtonFunc (button) {
                     formatOutput();
                     break;
                 case "MRC":
-                    console.log(pressed+' not implemented');
+                    if (mrcpressed) {
+                        memory=0;
+                        mrcpressed=false;
+                    }
+                    else {
+                        if (memory!==0){
+                            output.textContent=memory;
+                            formatOutput();
+                            computed=true;
+                            decpressed=false;
+                        }
+                    }
                     break;
                 case "M-":
-                    console.log(pressed+' not implemented');
+                    memory-=Number((negative?"-":"+")+output.textContent);
+                    computed=true;
+                    decpressed=false;
                     break;
                 case "M+":
-                    console.log(pressed+' not implemented');
+                    memory+=Number((negative?"-":"+")+output.textContent);
+                    computed=true;
+                    decpressed=false;
                     break;
                 }
             }
@@ -178,5 +198,7 @@ function assignButtonFunc (button) {
             negative=false;
             setNegative();
         }
+        mrcpressed=pressed==="MRC"&&memory!==0;
+        memsign.style.color=memory===0?"rgb(80, 172, 73)":"rgb(62, 80, 27)";
     });
 }
