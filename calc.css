@@ -40,19 +40,20 @@ div {
 }
 .screen .indic {
     border:0;
+    text-align: center;
 }
 .screen .indic *{
     color:rgb(80, 172, 73);
     width: min-content;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: small;
+    font-family: Digital-7;
+    font-size: 16px;
     font-weight: bolder;
     border: 0;
 }
 .screen .output {
     color: rgb(62, 80, 27);
-    font-family: 'Courier New', Courier, monospace;
-    font-size: xx-large;
+    font-family: Digital-7;
+    font-size: 42px;
     font-weight: bold;
     border: 0;
 }
@@ -61,8 +62,7 @@ div {
     height:90%;
     justify-content: flex-end;
     flex-direction: column;
-    font-family: 'Courier New', Courier, monospace;
-    font-weight: bolder;
+    font-family: Sono-SemiBold;
 }
 .lower .solarpanel {
     background-color: rgb(35, 52, 0);
@@ -79,19 +79,25 @@ div {
     justify-content: center;
     width:65%;
     flex-flow: row wrap;
+    font-size: large;
+}
+.buttonsleft * {
+    padding: 0.3em;
 }
 .buttonsright{
-    width:20%
+    width:20%;
+    font-size: 28px;
+}
+.buttonsright *{
+    padding-left: 0.2em;
 }
 .redbutton{
-    padding:0.2em;
     color:white;
     width:25%;
     background-color: red;
     flex:auto;
 }
 .whitebutton {
-    padding:0.2em;
     width:25%;
     background-color: white;
     flex:auto;
@@ -100,7 +106,7 @@ div {
     width:85%;
 }
 #equals{
-    flex:4;
+    flex:5.5;
 }
 
 .calculator * {
@@ -115,4 +121,12 @@ div {
 
 .whitebutton:hover{
     background-color: rgb(170, 170, 170);
+}
+@font-face {
+    font-family: Digital-7;
+    src: url("digital-7.mono.ttf");
+}
+@font-face {
+    font-family: Sono-SemiBold;
+    src: url("Sono-SemiBold.ttf");
 }

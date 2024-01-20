@@ -18,8 +18,6 @@ output=document.querySelector(".output");
 leftbuttons.childNodes.forEach(button => assignButtonFunc(button));
 rightbuttons.childNodes.forEach(button => assignButtonFunc(button));
 
-//Helper functions
-
 function formatOutput () {
     format=output.textContent;
     if (format < 0){
@@ -141,7 +139,6 @@ function assignButtonFunc (button) {
                     operation=null;
                     computed=true;
                     decpressed=false;
-                    negative
                     break;
                 case "%":
                     if (operation===null){
