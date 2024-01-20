@@ -108,3 +108,11 @@ div {
     min-width: 0;
     border: 2px solid blue;
 }
+
+.redbutton:hover{
+    background-color: rgb(170, 0, 0);
+}
+
+.whitebutton:hover{
+    background-color: rgb(170, 170, 170);
+}
