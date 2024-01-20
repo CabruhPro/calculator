@@ -46,7 +46,7 @@ div {
     width: min-content;
     font-family: 'Courier New', Courier, monospace;
     font-size: small;
-    font-weight: bold;
+    font-weight: bolder;
     border: 0;
 }
 .screen .output {

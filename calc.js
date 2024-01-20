@@ -1,9 +1,10 @@
-let num1=null;
+ let num1=null;
 let num2=null;
 let operation=null;
 let computed=false;
 let decpressed=false;
 let negative=false;
+let error=false;
 
 leftbuttons=document.querySelector(".buttonsleft");
 rightbuttons=document.querySelector(".buttonsright");
@@ -14,10 +15,6 @@ output=document.querySelector(".output");
 
 leftbuttons.childNodes.forEach(button => assignButtonFunc(button));
 rightbuttons.childNodes.forEach(button => assignButtonFunc(button));
-
-// Implement these operations this way?
-// √ = ** 0.5?
-// % = / 100?
 
 //Helper functions
 
@@ -62,8 +59,6 @@ function operate(){
             result=num1/num2;
             break;
     }
-    //console.log("operation: "+ num1+" "+operation+" "+num2);
-    //console.log("result: " + result);
     output.textContent=result;
     formatOutput();
     num1=result;
@@ -97,19 +92,24 @@ function numberInput(){
 function assignButtonFunc (button) {
     button.addEventListener('click', function (){
         pressed=button.textContent;
-        if (isNaN(pressed)){
+        if(pressed === "ON/C"){
+            num1=null;
+            num2=null;
+            operator=null;
+            decpressed=false;
+            output.textContent="0.";
+            negative=false;
+            error=false;
+            errsign.style.color="rgb(80, 172, 73)";
+            setNegative();
+        }
+        else if (!(isNaN(pressed) || error)){
+            numberInput();
+        }
+        else {
             switch (pressed){
                 case ".":
                     decpressed=true;
-                    break;
-                case "ON/C":
-                    num1=null;
-                    num2=null;
-                    operator=null;
-                    decpressed=false;
-                    output.textContent="0.";
-                    negative=false;
-                    setNegative();
                     break;
                 case "+/-":
                     negative=!negative;
@@ -139,15 +139,44 @@ function assignButtonFunc (button) {
                     computed=true;
                     decpressed=false;
                     break;
-                default:
-                    console.log(pressed+' not implemented');
-                    //computed=true;
-                    //decpressed=false;
+                case "%":
+                    if (operation===null){
+                        num1=Number((negative?"-":"+")+output.textContent)*0.01;
+                        output.textContent=num1;
+                        formatOutput();
+                    }
+                    else{
+                        output.textContent=
+                        Number((negative?"-":"+")+output.textContent)*0.01*num1;
+                        operate();
+                    }
+                    computed=true;
+                    decpressed=false;
+                    operation=null;
                     break;
+                case "√":
+                    output.textContent=
+                    Number((negative?"-":"+")+output.textContent)**0.5;
+                    formatOutput();
+                    break;
+                case "MRC":
+                    console.log(pressed+' not implemented');
+                    break;
+                case "M-":
+                    console.log(pressed+' not implemented');
+                    break;
+                case "M+":
+                    console.log(pressed+' not implemented');
+                    break;
+                }
             }
-        }
-        else{
-            numberInput();
+        if (output.textContent==="NaN." || 
+            output.textContent==="Infinity."){
+            error=true;
+            errsign.style.color="rgb(62, 80, 27)";
+            output.textContent="";
+            negative=false;
+            setNegative();
         }
     });
 }
