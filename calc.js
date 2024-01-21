@@ -63,6 +63,13 @@ function operate(){
     formatOutput();
     num1=result;
     num2=null;
+    if(result > 999999999999 || result < -999999999999){
+        error=true;
+        errsign.style.color="rgb(62, 80, 27)";
+        output.textContent="";
+        negative=false;
+        setNegative();
+    }
 }
 
 function numberInput(){
@@ -147,9 +154,21 @@ function assignButtonFunc (button) {
                         formatOutput();
                     }
                     else{
-                        output.textContent=
-                        Number((negative?"-":"+")+output.textContent)*0.01*num1;
-                        formatOutput();
+                        switch(operation){
+                            case "+":
+                            case "-":
+                                output.textContent=
+                                Number((negative?"-":"+")+
+                                output.textContent)*0.01*num1;
+                                formatOutput();
+                                break;
+                            default:
+                                output.textContent=
+                                Number((negative?"-":"+")+
+                                output.textContent)*0.01;
+                                formatOutput();
+                                break;
+                        }
                         operate();
                     }
                     computed=true;

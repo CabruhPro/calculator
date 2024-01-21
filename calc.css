@@ -66,10 +66,17 @@ div {
     font-family: Sono-SemiBold;
 }
 .lower .solarpanel {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-evenly;
     background-color: rgb(35, 52, 0);
     width:50%;
     height:8%;
-    border: 4px solid blue;
+    border: 8px solid blue;
+    border-radius: 12px;
+}
+.solarpanel .bar {
+    border-color:rgb(25, 30, 0);
 }
 .buttons {
     height: 90%;
@@ -107,7 +114,7 @@ div {
     width:85%;
 }
 #equals{
-    flex:5.5;
+    min-height:32.5%;
 }
 
 .calculator * {
