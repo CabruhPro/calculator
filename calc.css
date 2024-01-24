@@ -13,6 +13,7 @@ body {
     height:90%;
     display:flex;
     justify-content: center;
+    background-color: rgb(232, 171, 110);
 }
 
 div {
@@ -22,11 +23,11 @@ div {
 
 .calculator {
     min-height: 450px;
-    max-height: 60%;
+    max-height: 60vh;
     aspect-ratio: 2/3;
     background-color: blue;
-    padding: max(16px, 1%);
-    border-radius: max(16px, 1%);
+    padding: max(16px, 1vh);
+    border-radius: max(16px, 1vh);
 }
 
 .screen {
