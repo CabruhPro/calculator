@@ -21,13 +21,12 @@ div {
 }
 
 .calculator {
-    min-width: 300px;
     min-height: 450px;
     max-height: 60%;
     aspect-ratio: 2/3;
     background-color: blue;
-    padding: 8px;
-    border-radius: 8px;
+    padding: max(16px, 1%);
+    border-radius: max(16px, 1%);
 }
 
 .screen {
@@ -37,9 +36,11 @@ div {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding:0.4em;
+    padding:max(4px, 1%) max(0.4em, 2%);
 }
 .screen .indic {
+    height: 100%;
+    justify-content: space-around;
     border:0;
     text-align: center;
 }
@@ -47,14 +48,14 @@ div {
     color:rgb(80, 172, 73);
     width: min-content;
     font-family: Digital-7;
-    font-size: 16px;
+    font-size: max(16px, 1.75vh);
     font-weight: bolder;
     border: 0;
 }
 .screen .output {
     color: rgb(62, 80, 27);
     font-family: Digital-7;
-    font-size: 42px;
+    font-size: max(42px, 4vh);
     font-weight: bold;
     border: 0;
 }
@@ -72,8 +73,8 @@ div {
     background-color: rgb(35, 52, 0);
     width:50%;
     height:8%;
-    border: 8px solid blue;
-    border-radius: 12px;
+    border-radius: max(6px, 0.75vh);
+    margin-left: 3%;
 }
 .solarpanel .bar {
     border-color:rgb(25, 30, 0);
@@ -87,14 +88,14 @@ div {
     justify-content: center;
     width:65%;
     flex-flow: row wrap;
-    font-size: large;
+    font-size: max(16px,2vh);
 }
 .buttonsleft * {
     padding: 0.3em;
 }
 .buttonsright{
     width:20%;
-    font-size: 28px;
+    font-size: max(28px, 3.5vh);
 }
 .buttonsright *{
     padding-left: 0.2em;
@@ -120,8 +121,9 @@ div {
 .calculator * {
     min-height: 0;
     min-width: 0;
-    border: 2px solid blue;
-    border-radius: 8px;
+    border: max(3px, 0.3vh) solid blue;
+    border-radius: max(8px, 1vh);
+    user-select: none;
 }
 
 .redbutton:hover{
@@ -131,6 +133,11 @@ div {
 .whitebutton:hover{
     background-color: rgb(170, 170, 170);
 }
+
+.redbutton, .whitebutton{
+    touch-action: manipulation;
+}
+
 @font-face {
     font-family: Digital-7;
     src: url("digital-7.mono.ttf");

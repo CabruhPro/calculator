@@ -42,6 +42,13 @@ function setNegative () {
     negative?"rgb(62, 80, 27)":"rgb(80, 172, 73)";
 }
 
+function errorCheck (result) {
+    if(result > 999999999999 || result < -999999999999
+        || !isFinite(result)){
+        error=true;
+    }
+}
+
 function operate(){
     num2=Number((negative?"-":"+")+output.textContent);
     negative=false;
@@ -63,13 +70,7 @@ function operate(){
     formatOutput();
     num1=result;
     num2=null;
-    if(result > 999999999999 || result < -999999999999){
-        error=true;
-        errsign.style.color="rgb(62, 80, 27)";
-        output.textContent="";
-        negative=false;
-        setNegative();
-    }
+    errorCheck(result);
 }
 
 function numberInput(){
@@ -98,7 +99,7 @@ function numberInput(){
 }
 
 function assignButtonFunc (button) {
-    button.addEventListener('click', function (){
+    button.addEventListener('click', function (event){
         pressed=button.textContent;
         if(pressed === "ON/C"){
             num1=null;
@@ -114,7 +115,7 @@ function assignButtonFunc (button) {
         else if (!(isNaN(pressed) || error)){
             numberInput();
         }
-        else {
+        else if (!error) {
             switch (pressed){
                 case ".":
                     decpressed=true;
@@ -149,8 +150,10 @@ function assignButtonFunc (button) {
                     break;
                 case "%":
                     if (operation===null){
-                        num1=Number((negative?"-":"+")+output.textContent)*0.01;
+                        num1=Number((negative?"-":"+")+
+                        output.textContent)*0.01;
                         output.textContent=num1;
+                        errorCheck(num1);
                         formatOutput();
                     }
                     else{
@@ -176,8 +179,9 @@ function assignButtonFunc (button) {
                     operation=null;
                     break;
                 case "√":
-                    output.textContent=
-                    Number((negative?"-":"+")+output.textContent)**0.5;
+                    num1=Number((negative?"-":"+")+output.textContent)**0.5;
+                    output.textContent=num1;
+                    errorCheck(num1);
                     formatOutput();
                     break;
                 case "MRC":
@@ -195,20 +199,24 @@ function assignButtonFunc (button) {
                     }
                     break;
                 case "M-":
+                    errbackup=memory;
                     memory-=Number((negative?"-":"+")+output.textContent);
+                    errorCheck(memory);
+                    memory=error?errbackup:memory;
                     computed=true;
                     decpressed=false;
                     break;
                 case "M+":
+                    errbackup=memory;
                     memory+=Number((negative?"-":"+")+output.textContent);
+                    errorCheck(memory);
+                    memory=error?errbackup:memory;
                     computed=true;
                     decpressed=false;
                     break;
                 }
             }
-        if (output.textContent==="NaN." || 
-            output.textContent==="Infinity."){
-            error=true;
+        if (error){
             errsign.style.color="rgb(62, 80, 27)";
             output.textContent="";
             negative=false;
@@ -216,5 +224,6 @@ function assignButtonFunc (button) {
         }
         mrcpressed=pressed==="MRC"&&memory!==0;
         memsign.style.color=memory===0?"rgb(80, 172, 73)":"rgb(62, 80, 27)";
+        event.preventDefault();
     });
 }
