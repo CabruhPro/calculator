@@ -47,7 +47,7 @@ footer {
     aspect-ratio: 2/3;
     background-color: blue;
     padding: max(16px, 1vh);
-    border-radius: max(16px, 1vh);
+    border-radius: max(16px, 2vh);
 }
 
 .screen {

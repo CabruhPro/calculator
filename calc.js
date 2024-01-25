@@ -1,12 +1,16 @@
 let num1=null;
 let num2=null;
-let operation=null;
+let runningtotal=0;
+let operation='+';
 let computed=false;
 let decpressed=false;
 let negative=false;
 let error=false;
-let mrcpressed=false;
 let memory=0;
+let oncpressed=false;
+let mrcpressed=false;
+let oprpressed=false;
+let equalspressed=false;
 
 leftbuttons=document.querySelector(".buttonsleft");
 rightbuttons=document.querySelector(".buttonsright");
@@ -20,10 +24,8 @@ rightbuttons.childNodes.forEach(button => assignButtonFunc(button));
 
 function formatOutput () {
     format=output.textContent;
-    if (format < 0){
-        format=format.slice(1);
-        negative=true;
-    }
+    negative=format<0;
+    format=negative?format.slice(1):format;
     if (format.length > 13){
         format=format.slice(0,13);
     }
@@ -49,8 +51,25 @@ function errorCheck (result) {
     }
 }
 
+function clear(){
+    num1=null;
+    num2=null;
+    operation='+';
+    computed=false;
+    decpressed=false;
+    negative=false;
+    error=false;
+    oncpressed=false;
+    mrcpressed=false;
+    oprpressed=false;
+    equalspressed=false;
+    output.textContent="0.";
+    errsign.style.color="rgb(80, 172, 73)";
+    setNegative();
+    oncpressed=false;
+}
+
 function operate(){
-    num2=Number((negative?"-":"+")+output.textContent);
     negative=false;
     switch(operation){
         case "+":
@@ -67,9 +86,8 @@ function operate(){
             break;
     }
     output.textContent=result;
-    formatOutput();
     num1=result;
-    num2=null;
+    formatOutput();
     errorCheck(result);
 }
 
@@ -79,6 +97,7 @@ function numberInput(){
         negative=false;
         setNegative();
         text="0.";
+        decpressed=false;
         computed=false;
     }
     if(text.length < 13){
@@ -102,23 +121,31 @@ function assignButtonFunc (button) {
     button.addEventListener('click', function (event){
         pressed=button.textContent;
         if(pressed === "ON/C"){
-            num1=null;
-            num2=null;
-            operator=null;
-            decpressed=false;
-            output.textContent="0.";
-            negative=false;
-            error=false;
-            errsign.style.color="rgb(80, 172, 73)";
-            setNegative();
+            if(oncpressed || error){
+                clear();
+            }
+            else{
+                oncpressed=true;
+                output.textContent="0."
+                negative=false;
+                setNegative();
+            }
         }
         else if (!(isNaN(pressed) || error)){
+            equalspressed=false;
+            oncpressed=false;
             numberInput();
         }
         else if (!error) {
+            oncpressed=false;
             switch (pressed){
                 case ".":
+                    equalspressed=false;
                     decpressed=true;
+                    if(computed){
+                        output.textContent="0."
+                        computed=false;
+                    }
                     break;
                 case "+/-":
                     negative=!negative;
@@ -128,63 +155,58 @@ function assignButtonFunc (button) {
                 case "×":
                 case "-":
                 case "÷":
-                    if(!computed){
-                        if (num1!==null){
-                            operate();
-                        }
-                        computed=true;
-                        decpressed=false;
+                    equalspressed=false;
+                    if(oprpressed){
+                        num2=Number((negative?"-":"+")+output.textContent);
+                        operate();
                     }
-                    num1=Number((negative?"-":"+")+output.textContent);
+                    else{
+                        num1=Number((negative?"-":"+")+output.textContent);
+                        negative=false;
+                    }
                     operation=pressed;
-                    negative=false;
+                    computed=true;
+                    oprpressed=true;
                     break;
                 case "=":
+                    oprpressed=false;
+                    if(!equalspressed){
+                        num2=Number((negative?"-":"+")+output.textContent);
+                    }
                     if (num1!==null){
                         operate();
                     }
-                    num1=null;
-                    operation=null;
+                    num1=Number((negative?"-":"+")+output.textContent);
+                    errorCheck(num1);
                     computed=true;
-                    decpressed=false;
+                    equalspressed=true;
                     break;
                 case "%":
-                    if (operation===null){
-                        num1=Number((negative?"-":"+")+
+                    if (num1===null){
+                        percent=Number((negative?"-":"+")+
                         output.textContent)*0.01;
-                        output.textContent=num1;
-                        errorCheck(num1);
-                        formatOutput();
                     }
                     else{
-                        switch(operation){
-                            case "+":
-                            case "-":
-                                output.textContent=
-                                Number((negative?"-":"+")+
-                                output.textContent)*0.01*num1;
-                                formatOutput();
-                                break;
-                            default:
-                                output.textContent=
-                                Number((negative?"-":"+")+
-                                output.textContent)*0.01;
-                                formatOutput();
-                                break;
-                        }
-                        operate();
+                        percent=Number((negative?"-":"+")+
+                        output.textContent)*0.01*num1;
                     }
+                    output.textContent=percent;
+                    errorCheck(percent);
+                    formatOutput();
                     computed=true;
-                    decpressed=false;
-                    operation=null;
                     break;
                 case "√":
-                    num1=Number((negative?"-":"+")+output.textContent)**0.5;
-                    output.textContent=num1;
-                    errorCheck(num1);
+                    sqrt=
+                    Number((negative?"-":"+")+output.textContent)**0.5;
+                    output.textContent=sqrt;
+                    errorCheck(sqrt);
                     formatOutput();
+                    computed=true;
                     break;
                 case "MRC":
+                    if (memory===0){
+                        clear();
+                    }
                     if (mrcpressed) {
                         memory=0;
                         mrcpressed=false;
@@ -194,7 +216,6 @@ function assignButtonFunc (button) {
                             output.textContent=memory;
                             formatOutput();
                             computed=true;
-                            decpressed=false;
                         }
                     }
                     break;
@@ -204,7 +225,6 @@ function assignButtonFunc (button) {
                     errorCheck(memory);
                     memory=error?errbackup:memory;
                     computed=true;
-                    decpressed=false;
                     break;
                 case "M+":
                     errbackup=memory;
@@ -212,7 +232,6 @@ function assignButtonFunc (button) {
                     errorCheck(memory);
                     memory=error?errbackup:memory;
                     computed=true;
-                    decpressed=false;
                     break;
                 }
             }
