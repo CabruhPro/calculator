@@ -1,6 +1,5 @@
 let num1=null;
 let num2=null;
-let runningtotal=0;
 let operation='+';
 let computed=false;
 let decpressed=false;
@@ -51,6 +50,16 @@ function errorCheck (result) {
     }
 }
 
+function resetComputed() {
+    if (computed){
+        negative=false;
+        setNegative();
+        text="0.";
+        decpressed=false;
+        computed=false;
+    }
+}
+
 function clear(){
     num1=null;
     num2=null;
@@ -90,6 +99,8 @@ function operate(){
     formatOutput();
     errorCheck(result);
 }
+
+
 
 function numberInput(){
     text=output.textContent;
@@ -132,7 +143,6 @@ function assignButtonFunc (button) {
             }
         }
         else if (!(isNaN(pressed) || error)){
-            equalspressed=false;
             oncpressed=false;
             numberInput();
         }
@@ -140,12 +150,13 @@ function assignButtonFunc (button) {
             oncpressed=false;
             switch (pressed){
                 case ".":
-                    equalspressed=false;
-                    decpressed=true;
-                    if(computed){
-                        output.textContent="0."
+                    if (computed){
+                        negative=false;
+                        setNegative();
+                        output.textContent="0.";
                         computed=false;
                     }
+                    decpressed=true;
                     break;
                 case "+/-":
                     negative=!negative;
@@ -172,10 +183,12 @@ function assignButtonFunc (button) {
                     if(!equalspressed){
                         num2=Number((negative?"-":"+")+output.textContent);
                     }
+                    else{
+                        num1=Number((negative?"-":"+")+output.textContent);
+                    }
                     if (num1!==null){
                         operate();
                     }
-                    num1=Number((negative?"-":"+")+output.textContent);
                     errorCheck(num1);
                     computed=true;
                     equalspressed=true;
