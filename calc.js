@@ -162,7 +162,6 @@ function assignButtonFunc (button) {
                     }
                     else{
                         num1=Number((negative?"-":"+")+output.textContent);
-                        negative=false;
                     }
                     operation=pressed;
                     computed=true;
