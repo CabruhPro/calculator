@@ -22,9 +22,12 @@ leftbuttons.childNodes.forEach(button => assignButtonFunc(button));
 rightbuttons.childNodes.forEach(button => assignButtonFunc(button));
 
 function formatOutput () {
-    format=output.textContent;
+    format=Number(output.textContent).toFixed(11);
     negative=format<0;
     format=negative?format.slice(1):format;
+    while(format.charAt(format.length-1)==="0"){
+        format=format.slice(0,format.length-1);
+    }
     if (format.length > 13){
         format=format.slice(0,13);
     }
@@ -45,7 +48,9 @@ function setNegative () {
 
 function errorCheck (result) {
     if(result > 999999999999 || result < -999999999999
-        || !isFinite(result)){
+    || (result < 0.00000000001 && result > 0)
+    || (result > -0.00000000001 && result < 0)
+    || !isFinite(result)){
         error=true;
     }
 }
@@ -99,8 +104,6 @@ function operate(){
     formatOutput();
     errorCheck(result);
 }
-
-
 
 function numberInput(){
     text=output.textContent;
@@ -188,8 +191,8 @@ function assignButtonFunc (button) {
                     }
                     if (num1!==null){
                         operate();
+                        errorCheck(num1);
                     }
-                    errorCheck(num1);
                     computed=true;
                     equalspressed=true;
                     break;
