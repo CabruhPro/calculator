@@ -24,15 +24,16 @@ div {
 }
 
 footer {
-    height:8%;
+    height:max(8%, 40px);
     background-color: rgb(239, 150, 61);
     color:whitesmoke;
     display: flex;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 5vh;
+    font-size: max(5vh, 24px);
     justify-content: center;
     align-items: center;
     font-weight: bold;
+    margin-top:max(2%, 24px);
 }
 
 .calccontainer{
@@ -41,7 +42,7 @@ footer {
 }
 
 .calculator {
-    margin-top: 5vh;
+    margin-top:max(1%, 24px);
     width: max(300px,calc(60vh*2/3));
     height:max(450px, 60vh);
     aspect-ratio: 2/3;
